@@ -43,18 +43,12 @@ app.delete('/todos/:id', (req, res) => {
 app.patch('/todos/:id/complete', (req, res) => {
   const id: string = req.params.id;
 
-  // Check if the ID is in a valid UUID format
-  if (
-    !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
-      id,
-    )
-  ) {
-    return res.status(400).json({ error: 'Invalid ID format' });
-  }
+  const result = sdk.completeTodo(id);
 
-  const success = sdk.completeTodo(id);
-  if (success) {
+  if (result.success) {
     res.status(200).json({ message: 'Todo marked as completed' });
+  } else if (result.alreadyCompleted) {
+    res.status(400).json({ error: 'Todo already completed' });
   } else {
     res.status(404).json({ error: 'Todo not found' });
   }

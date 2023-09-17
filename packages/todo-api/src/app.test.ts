@@ -5,7 +5,7 @@ import app from './app';
 const request = supertest(app);
 
 describe('ToDo API', () => {
-  let createdTodoId: number;
+  let createdTodoId: string;
 
   it('should fetch all todos', async () => {
     const response = await request.get('/todos');
@@ -32,8 +32,15 @@ describe('ToDo API', () => {
     expect(response.body.message).toBe('Todo marked as completed');
   });
 
+  it('should not complete an already completed todo', async () => {
+    const response = await request.patch(`/todos/${createdTodoId}/complete`);
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Todo already completed');
+  });
+
   it('should not complete a non-existing todo', async () => {
-    const response = await request.patch('/todos/9999/complete');
+    const nonExistentId = '12345678-1234-1234-1234-123456789012'; // Sample UUID
+    const response = await request.patch(`/todos/${nonExistentId}/complete`);
     expect(response.status).toBe(404);
     expect(response.body.error).toBe('Todo not found');
   });
@@ -44,8 +51,16 @@ describe('ToDo API', () => {
   });
 
   it('should not delete a non-existing todo', async () => {
-    const response = await request.delete('/todos/9999');
+    const nonExistentId = '12345678-1234-1234-1234-123456789012';
+    const response = await request.delete(`/todos/${nonExistentId}`);
     expect(response.status).toBe(404);
     expect(response.body.error).toBe('Todo not found');
+  });
+
+  it('should not delete a todo with invalid ID format', async () => {
+    const invalidId = '1234';
+    const response = await request.delete(`/todos/${invalidId}`);
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Invalid ID format');
   });
 });

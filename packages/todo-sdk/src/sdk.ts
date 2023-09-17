@@ -53,8 +53,19 @@ export class ToDoSDK {
     return this.store.deleteTodo(id);
   }
 
-  completeTodo(id: string): boolean {
+  completeTodo(id: string): { success: boolean; alreadyCompleted?: boolean } {
     log('Completing todo with id: %s', id);
-    return this.store.completeTodo(id);
+
+    const todo = this.store.getTodos().find((t) => t.id === id);
+    if (!todo) {
+      log('Todo with id %s not found', id);
+      return { success: false };
+    }
+
+    if (todo.completed) {
+      return { success: false, alreadyCompleted: true };
+    }
+
+    return { success: this.store.completeTodo(id) };
   }
 }

@@ -22,7 +22,7 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm ci
 
       - name: Build
         run: pnpm run build
@@ -36,13 +36,13 @@ jobs:
 
       - name: Package Binaries with Execution Permissions
         run: |
-          chmod +x packages/todo-cli/clis/todo-cli-linux-x64
-          chmod +x packages/todo-cli/clis/todo-cli-macos-x64
-          chmod +x packages/todo-cli/clis/todo-cli-macos-arm64
+          chmod +x packages/todo-cli/clis/@jagreehal/todo-cli-linux-x64
+          chmod +x packages/todo-cli/clis/@jagreehal/todo-cli-macos-x64
+          chmod +x packages/todo-cli/clis/@jagreehal/todo-cli-macos-arm64
           tar -czvf todo-cli-linux-x64.tar.gz -C packages/todo-cli/clis todo-cli-linux-x64
           tar -czvf todo-cli-macos-x64.tar.gz -C packages/todo-cli/clis todo-cli-macos-x64
           tar -czvf todo-cli-macos-arm64.tar.gz -C packages/todo-cli/clis todo-cli-macos-arm64
-          mv packages/todo-cli/clis/todo-cli-win-x64.exe packages/todo-cli/todo-cli-win-x64.exe  # move the .exe file out of the clis directory to avoid it being tarred
+          mv packages/todo-cli/clis/@jagreehal/todo-cli-win-x64.exe packages/todo-cli/todo-cli-win-x64.exe  # move the .exe file out of the clis directory to avoid it being tarred
 
       - name: Deploy to S3
         run: |

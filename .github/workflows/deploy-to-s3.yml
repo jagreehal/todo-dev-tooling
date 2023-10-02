@@ -25,7 +25,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: cd packages/todo-cli && pnpm run build
+        run: pnpm run build
 
       - name: Extract version
         id: pkg

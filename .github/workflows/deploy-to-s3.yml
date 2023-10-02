@@ -27,19 +27,22 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Package
+        run: cd packages/todo-cli && pnpm run package
+
       - name: Extract version
         id: pkg
         run: echo "::set-output name=version::$(cd packages/todo-cli && node -p "require('./package.json').version")"
 
       - name: Package Binaries with Execution Permissions
         run: |
-          chmod +x ./clis/todo-cli-linux-x64
-          chmod +x ./clis/todo-cli-macos-x64
-          chmod +x ./clis/todo-cli-macos-arm64
+          chmod +x packages/todo-cli/clis/todo-cli-linux-x64
+          chmod +x packages/todo-cli/clis/todo-cli-macos-x64
+          chmod +x packages/todo-cli/clis/todo-cli-macos-arm64
           tar -czvf todo-cli-linux-x64.tar.gz -C packages/todo-cli/clis todo-cli-linux-x64
           tar -czvf todo-cli-macos-x64.tar.gz -C packages/todo-cli/clis todo-cli-macos-x64
           tar -czvf todo-cli-macos-arm64.tar.gz -C packages/todo-cli/clis todo-cli-macos-arm64
-          mv ./clis/todo-cli-win-x64.exe packages/todo-cli/todo-cli-win-x64.exe  # move the .exe file out of the clis directory to avoid it being tarred
+          mv packages/todo-cli/clis/todo-cli-win-x64.exe packages/todo-cli/todo-cli-win-x64.exe  # move the .exe file out of the clis directory to avoid it being tarred
 
       - name: Deploy to S3
         run: |

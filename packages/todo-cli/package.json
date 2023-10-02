@@ -8,6 +8,7 @@
     "dev": "ts-node todo-cli.ts",
     "debug": "node --inspect-brk -r ts-node/register todo-cli.ts",
     "build": "tsc",
+    "package": "ncc build src/index.ts -o build && pkg build/index.js -c package.json",
     "start": "DEBUG=ToDoSDK node dist/index.js"
   },
   "bin": {
@@ -19,8 +20,22 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "typescript": "^5.2.2",
+    "@types/node": "^20.6.2",
+    "@vercel/ncc": "^0.38.0",
+    "pkg": "^5.8.1",
     "ts-node": "^10.9.1",
-    "@types/node": "^20.6.2"
+    "typescript": "^5.2.2"
+  },
+  "pkg": {
+    "targets": [
+      "node14-linux-x64",
+      "node14-macos-x64",
+      "node14-macos-arm64",
+      "node14-win-x64"
+    ],
+    "outputPath": "clis",
+    "assets": [
+      "node_modules"
+    ]
   }
 }

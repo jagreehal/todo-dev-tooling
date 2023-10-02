@@ -6,3 +6,5 @@ dist
 cdk.out/
 .turbo/
 __*
+clis
+build

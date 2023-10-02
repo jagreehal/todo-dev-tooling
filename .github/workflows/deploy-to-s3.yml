@@ -45,7 +45,7 @@ jobs:
           mv packages/todo-cli/clis/@jagreehal/todo-cli-win-x64.exe packages/todo-cli/todo-cli-win-x64.exe
 
       - name: Deploy to S3
-       run: |
+        run: |
           aws s3 cp todo-cli-linux-x64.tar.gz s3://todo-dev-tooling/clis/${{ steps.pkg.outputs.version }}/ --debug
           aws s3 cp todo-cli-macos-x64.tar.gz s3://todo-dev-tooling/clis/${{ steps.pkg.outputs.version }}/ --debug
           aws s3 cp todo-cli-macos-arm64.tar.gz s3://todo-dev-tooling/clis/${{ steps.pkg.outputs.version }}/ --debug

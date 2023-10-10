@@ -1,26 +1,23 @@
-import debug from 'debug';
-import { DataStore, InMemoryStore } from './data';
-import { Todo, TodoSchema } from './types';
+import { InMemoryStore } from './stores/memory';
+import { DataStore, Todo, TodoSchema } from './types';
 import { v4 as uuidv4 } from 'uuid';
-
-// Set up a debugger with the namespace 'ToDoSDK'
-const log = debug('ToDoSDK');
+import * as logger from '@jagreehal/todo-logger';
 
 export class ToDoSDK {
   private store: DataStore;
 
   constructor(store: DataStore = new InMemoryStore()) {
     this.store = store;
-    log('Initialized with store: %O', store);
+    logger.debug('Initialized with store: %O', store);
   }
 
   getTodos(): Todo[] {
-    log('Fetching all todos');
+    logger.debug('Fetching all todos');
     return this.store.getTodos();
   }
 
   addTodo(title: string): Todo {
-    log('Adding todo with title: %s', title);
+    logger.debug('Adding todo with title: %s', title);
     const newTodo = { id: uuidv4(), title, completed: false };
     TodoSchema.parse(newTodo);
     this.store.addTodo(newTodo);
@@ -28,10 +25,10 @@ export class ToDoSDK {
   }
 
   editTodo(id: string, title?: string, completed?: boolean): boolean {
-    log('Editing todo with id: %s', id);
+    logger.debug('Editing todo with id: %s', id);
     const todo = this.store.getTodos().find((todo) => todo.id === id);
     if (!todo) {
-      log('Todo with id %s not found', id);
+      logger.debug('Todo with id %s not found', id);
       return false;
     }
 
@@ -49,16 +46,16 @@ export class ToDoSDK {
   }
 
   deleteTodo(id: string): boolean {
-    log('Deleting todo with id: %s', id);
+    logger.debug('Deleting todo with id: %s', id);
     return this.store.deleteTodo(id);
   }
 
   completeTodo(id: string): { success: boolean; alreadyCompleted?: boolean } {
-    log('Completing todo with id: %s', id);
+    logger.debug('Completing todo with id: %s', id);
 
     const todo = this.store.getTodos().find((t) => t.id === id);
     if (!todo) {
-      log('Todo with id %s not found', id);
+      logger.debug('Todo with id %s not found', id);
       return { success: false };
     }
 
@@ -67,5 +64,12 @@ export class ToDoSDK {
     }
 
     return { success: this.store.completeTodo(id) };
+  }
+
+  logError() {
+    logger.error(
+      'Example Error',
+      new Error(`This is the error: ${Math.random()}`),
+    );
   }
 }

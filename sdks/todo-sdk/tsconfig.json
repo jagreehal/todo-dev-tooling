@@ -1,0 +1,4 @@
+{
+  "extends": "@jagreehal/todo-config/tsconfig.json",
+  "include": ["src/**/*.ts"]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@jagreehal/todo-logger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint . --ext .ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^7.101.1",
+    "@sentry/profiling-node": "^7.101.1",
+    "debug": "^4.3.4",
+    "pino": "^8.19.0"
+  },
+  "devDependencies": {
+    "@jagreehal/todo-config": "*",
+    "@sentry/types": "^7.101.1",
+    "@types/debug": "^4.1.12",
+    "tsup": "^8.0.2"
+  }
+}

@@ -1,12 +1,5 @@
-import { Todo } from '../types';
+import { DataStore, Todo } from '../types';
 
-export interface DataStore {
-  getTodos(): Todo[];
-  addTodo(todo: Todo): void;
-  editTodo(id: string, title?: string, completed?: boolean): boolean;
-  deleteTodo(id: string): boolean;
-  completeTodo(id: string): boolean;
-}
 export class InMemoryStore implements DataStore {
   private todos: Todo[] = [];
 

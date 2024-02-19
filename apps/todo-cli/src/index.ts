@@ -1,15 +1,26 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
+import { version } from '../package.json';
 import { z } from 'zod';
+import * as logger from '@jagreehal/todo-logger';
 
-import { ToDoSDK } from '@jagreehal/todo-sdk';
+import { ToDoSDK, JSONFileStore } from '@jagreehal/todo-sdk';
 
 const TodoIdSchema = z.string().uuid();
 
-const sdk = new ToDoSDK();
+const sdk = new ToDoSDK(new JSONFileStore('todos.json'));
 
-program.version('1.0.0').description('CLI for ToDo SDK');
+logger.init({
+  sentry: {
+    dsn: 'https://6637ef503a14d7b026b05808475f41ad@o4506026535485440.ingest.sentry.io/4506026536665088',
+  },
+  pino: {
+    level: 'debug',
+  },
+});
+
+program.version(version).description(`CLI for ToDo SDK: ${version}`);
 
 program
   .command('list')
@@ -18,7 +29,7 @@ program
     const todos = sdk.getTodos();
     todos.forEach((todo) => {
       console.log(
-        `[${todo.id}] - ${todo.title} ${todo.completed ? '(completed)' : ''}`,
+        `[${todo.id}] - ${todo.title} ${todo.completed ? '✅' : '⭕'}`,
       );
     });
   });
@@ -65,6 +76,13 @@ program
     } else {
       console.error(`No todo found with ID: ${idString}`);
     }
+  });
+
+program
+  .command('error')
+  .description('Cause an error to be logged')
+  .action(() => {
+    sdk.logError();
   });
 
 program.parse(process.argv);

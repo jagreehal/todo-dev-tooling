@@ -6,13 +6,13 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   extends: [
-    'eslint:recommended',
+    'plugin:unicorn/all',
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
+  ignorePatterns: ['**/dist/*'],
   rules: {},
   env: {
     node: true,
-    jest: true,
   },
 };

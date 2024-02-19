@@ -1,23 +1,29 @@
 {
   "name": "todo-dev-tooling",
+  "packageManager": "pnpm@8.9.0",
   "private": true,
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "@jagreehal/todo-config": "workspace:*",
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.8.4",
+    "prettier": "^3.0.3",
+    "turbo": "^1.10.14",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  },
   "scripts": {
     "build": "turbo run build",
+    "changeset": "changeset",
     "clean": "turbo run clean",
     "dev": "dotenv -- turbo run dev --no-cache --parallel --continue",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "test": "turbo run test",
     "publish-packages": "turbo run build lint && changeset version && changeset publish",
+    "release": "turbo build --filter=docs^... && changeset publish",
     "run:api": "turbo run dev --filter=api",
-    "run:cli": "turbo run start --filter=packages/todo-cli"
-  },
-  "devDependencies": {
-    "prettier": "^3.0.3",
-    "turbo": "^1.10.14"
-  },
-  "packageManager": "pnpm@7.15.0",
-  "dependencies": {
-    "@changesets/cli": "^2.26.2"
+    "run:cli": "node ./apps/todo-cli/dist/index.js",
+    "test": "turbo run test",
+    "version-packages": "changeset version"
   }
 }

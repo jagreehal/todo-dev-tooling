@@ -4,6 +4,6 @@ dist
 .changeset
 .env
 cdk.out/
-.turbo/
 __*
 todos.json
+.nx

@@ -1,56 +1,52 @@
+import { Todo, ToDoSDK } from '@jagreehal/todo-sdk';
 import express from 'express';
-import { ToDoSDK, Todo } from '@jagreehal/todo-sdk';
 
 const app = express();
 const sdk = new ToDoSDK();
 
 app.use(express.json());
 
-app.get('/todos', (req, res) => {
-  res.status(200).json(sdk.getTodos());
+app.get('/todos', (_, response) => {
+  response.status(200).json(sdk.getTodos());
 });
 
-app.post('/todos', (req, res) => {
-  const title: string = req.body.title;
+app.post('/todos', (request, response) => {
+  const title: string = request.body.title;
   if (title) {
-    const newTodo: Todo = sdk.addTodo(title);
-    res.status(201).json(newTodo);
+    const todo: Todo = sdk.addTodo(title);
+    response.status(201).json(todo);
   } else {
-    res.status(400).json({ error: 'Title is required' });
+    response.status(400).json({ error: 'Title is required' });
   }
 });
 
-app.delete('/todos/:id', (req, res) => {
-  const id: string = req.params.id;
+app.delete('/todos/:id', (request, response) => {
+  const id: string = request.params.id;
 
   // Check if the ID is in a valid UUID format
-  if (
-    !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
-      id,
-    )
-  ) {
-    return res.status(400).json({ error: 'Invalid ID format' });
+  if (!/^[\dA-Fa-f]{8}(?:-[\dA-Fa-f]{4}){3}-[\dA-Fa-f]{12}$/.test(id)) {
+    return response.status(400).json({ error: 'Invalid ID format' });
   }
 
   const success = sdk.deleteTodo(id);
   if (success) {
-    res.status(204).send();
+    response.status(204).send();
   } else {
-    res.status(404).json({ error: 'Todo not found' });
+    response.status(404).json({ error: 'Todo not found' });
   }
 });
 
-app.patch('/todos/:id/complete', (req, res) => {
-  const id: string = req.params.id;
+app.patch('/todos/:id/complete', (request, response) => {
+  const id: string = request.params.id;
 
   const result = sdk.completeTodo(id);
 
   if (result.success) {
-    res.status(200).json({ message: 'Todo marked as completed' });
+    response.status(200).json({ message: 'Todo marked as completed' });
   } else if (result.alreadyCompleted) {
-    res.status(400).json({ error: 'Todo already completed' });
+    response.status(400).json({ error: 'Todo already completed' });
   } else {
-    res.status(404).json({ error: 'Todo not found' });
+    response.status(404).json({ error: 'Todo not found' });
   }
 });
 

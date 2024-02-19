@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { debug as debugModule } from 'debug';
-import pino, { LoggerOptions as PinoOptions, Logger as PinoLogger } from 'pino';
 import * as Sentry from '@sentry/node';
 import { Options as SentryOptions } from '@sentry/types';
+import { debug as debugModule } from 'debug';
+import pino, { Logger as PinoLogger, LoggerOptions as PinoOptions } from 'pino';
 
 type LoggerConfig = {
   sentry?: SentryOptions;
@@ -55,7 +55,7 @@ export function getPinoLogger() {
     return pinoLogger;
   }
   console.warn('Pino is not initialized.');
-  return null;
+  return;
 }
 
 export function getSentry() {
@@ -63,5 +63,5 @@ export function getSentry() {
     return Sentry;
   }
   console.warn('Sentry is not initialized.');
-  return null;
+  return;
 }

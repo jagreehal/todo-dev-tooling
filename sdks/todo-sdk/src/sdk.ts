@@ -1,7 +1,7 @@
+import * as logger from '@jagreehal/todo-logger';
+import { v4 as uuidv4 } from 'uuid';
 import { InMemoryStore } from './stores/memory';
 import { DataStore, Todo, TodoSchema } from './types';
-import { v4 as uuidv4 } from 'uuid';
-import * as logger from '@jagreehal/todo-logger';
 
 export class ToDoSDK {
   private store: DataStore;
@@ -18,10 +18,10 @@ export class ToDoSDK {
 
   addTodo(title: string): Todo {
     logger.debug('Adding todo with title: %s', title);
-    const newTodo = { id: uuidv4(), title, completed: false };
-    TodoSchema.parse(newTodo);
-    this.store.addTodo(newTodo);
-    return newTodo;
+    const todo = { id: uuidv4(), title, completed: false };
+    TodoSchema.parse(todo);
+    this.store.addTodo(todo);
+    return todo;
   }
 
   editTodo(id: string, title?: string, completed?: boolean): boolean {

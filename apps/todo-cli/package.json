@@ -17,13 +17,13 @@
     "@jagreehal/todo-config": "workspace:*",
     "@jagreehal/todo-logger": "workspace:*",
     "@jagreehal/todo-sdk": "workspace:*",
-    "commander": "^11.0.0",
-    "esbuild": "0.19.4",
+    "commander": "^12.0.0",
+    "esbuild": "0.20.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.38.0",
+    "@vercel/ncc": "^0.38.1",
     "pkg": "^5.8.1",
-    "tsx": "^3.13.0"
+    "tsx": "^4.7.1"
   }
 }

@@ -1,20 +1,21 @@
-import { DataStore, Todo } from '../types';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import * as logger from '@jagreehal/todo-logger';
+import { DataStore, Todo } from '../types';
 
 export class JSONFileStore implements DataStore {
   private todos: Todo[] = [];
   private filePath: string;
 
   constructor(fileName: string) {
+    // eslint-disable-next-line unicorn/prefer-module
     this.filePath = path.resolve(__dirname, fileName);
     this.loadFromFile();
   }
 
   private saveToFile() {
     try {
-      const dataString = JSON.stringify(this.todos, null, 2);
+      const dataString = JSON.stringify(this.todos, undefined, 2);
       fs.writeFileSync(this.filePath, dataString, 'utf8');
       logger.debug(`Data saved to file ${this.filePath}`);
     } catch (error) {
@@ -25,7 +26,7 @@ export class JSONFileStore implements DataStore {
   private loadFromFile() {
     try {
       if (fs.existsSync(this.filePath)) {
-        const fileContent = fs.readFileSync(this.filePath, 'utf8');
+        const fileContent = fs.readFileSync(this.filePath).toString();
         this.todos = JSON.parse(fileContent);
         logger.debug('Data loaded from file');
       } else {

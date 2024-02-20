@@ -20,6 +20,7 @@
     "changeset": "changeset",
     "dev": "nx run-many -t dev",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,mdx}\"",
+    "graph": "nx dep-graph",
     "lint": "nx run-many -t lint",
     "publish-packages": "turbo run build lint && changeset version && changeset publish",
     "run:cli": "node ./apps/todo-cli/dist/index.js",

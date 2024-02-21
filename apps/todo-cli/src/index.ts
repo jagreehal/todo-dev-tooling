@@ -1,11 +1,9 @@
 #!/usr/bin/env node
-
-import { program } from 'commander';
-import { version } from '../package.json';
-import { z } from 'zod';
 import * as logger from '@jagreehal/todo-logger';
-
-import { ToDoSDK, JSONFileStore } from '@jagreehal/todo-sdk';
+import { JSONFileStore, ToDoSDK } from '@jagreehal/todo-sdk';
+import { program } from 'commander';
+import { z } from 'zod';
+import { version } from '../package.json';
 
 const TodoIdSchema = z.string().uuid();
 
@@ -27,11 +25,11 @@ program
   .description('List all todos')
   .action(() => {
     const todos = sdk.getTodos();
-    todos.forEach((todo) => {
+    for (const todo of todos) {
       console.log(
         `[${todo.id}] - ${todo.title} ${todo.completed ? '✅' : '⭕'}`,
       );
-    });
+    }
   });
 
 program

@@ -5,9 +5,10 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "dev": "PORT=3005 bun --watch src/index.ts",
     "debug": "vite --debug --inspect-brk",
-    "build": "vite build",
+    "build": "bun src/index.ts",
+    "lint": "eslint . --ext .ts",
     "test": "vitest run"
   },
   "dependencies": {

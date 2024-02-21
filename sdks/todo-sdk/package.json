@@ -2,14 +2,9 @@
   "name": "@jagreehal/todo-sdk",
   "version": "0.0.2",
   "description": "Todo SDK",
-  "main": "./dist/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "tsup",
+    "dev": "tsup --watch",
     "lint": "eslint . --ext .ts",
     "test": "vitest run",
     "prepublishOnly": "npm run build"
@@ -29,5 +24,12 @@
   },
   "devDependencies": {
     "tsup": "^8.0.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   }
 }

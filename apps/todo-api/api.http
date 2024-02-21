@@ -1,0 +1,18 @@
+
+# Get all todos
+GET http://localhost:3005/todos HTTP/1.1
+
+### Create
+POST http://localhost:3005/todos HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Buy milk"
+}
+
+### Delete
+DELETE http://localhost:3005/todos/9f287d28-d8be-44d2-8fd7-205cd5ceb297 HTTP/1.1
+
+### Complete
+
+PATCH http://localhost:3005/todos/9f287d28-d8be-44d2-8fd7-205cd5ceb297/complete HTTP/1.1

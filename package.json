@@ -1,29 +1,32 @@
 {
-  "name": "todo-dev-tooling",
-  "packageManager": "pnpm@8.9.0",
-  "private": true,
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@jagreehal/todo-config": "workspace:*",
     "@types/jest": "^29.5.5",
     "@types/node": "^20.8.4",
+    "nx": "^17.3.0",
     "prettier": "^3.0.3",
-    "turbo": "^1.10.14",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6"
   },
+  "engines": {
+    "node": ">=20"
+  },
+  "name": "todo-dev-tooling",
+  "packageManager": "pnpm@8.5.1",
+  "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "nx run-many -t build",
     "changeset": "changeset",
-    "clean": "turbo run clean",
-    "dev": "dotenv -- turbo run dev --no-cache --parallel --continue",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint",
-    "publish-packages": "turbo run build lint && changeset version && changeset publish",
-    "release": "turbo build --filter=docs^... && changeset publish",
-    "run:api": "turbo run dev --filter=api",
+    "dev": "nx run-many -t dev",
+    "dev:api": "nx run @jagreehal/todo-api:dev",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,mdx}\"",
+    "graph": "nx dep-graph",
+    "lint": "nx run-many -t lint",
+    "publish-packages": "npm run lint && changeset version && changeset publish",
     "run:cli": "node ./apps/todo-cli/dist/index.js",
-    "test": "turbo run test",
+    "start": "nx run-many -t dev",
+    "test": "nx run-many -t test",
     "version-packages": "changeset version"
   }
 }

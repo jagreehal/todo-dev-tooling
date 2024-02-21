@@ -5,9 +5,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "tsx todo-cli.ts",
     "debug": "node --inspect-brk -r tsx todo-cli.ts",
     "build": "esbuild --bundle src/index.ts --platform=node --outfile=bin/index.js",
+    "lint": "eslint . --ext .ts",
     "start": "node dist/index.js"
   },
   "bin": {
